@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 213 7% 20%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  
+  /* Primary color - pastel pink */
+  --primary: 354 100% 81%;
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary color - pastel peach */
+  --secondary: 33 100% 85%;
+  --secondary-foreground: 24 9.8% 10%;
+  
+  /* Accent color - pastel mint */
+  --accent: 152 69% 82%;
+  --accent-foreground: 213 7% 20%;
+  
+  /* Status colors */
+  --danger: 354 100% 71%;
+  --danger-foreground: 355 100% 97%;
+  --warning: 41 100% 70%;
+  --warning-foreground: 24 9.8% 10%;
+  --success: 166 100% 43%;
+  --success-foreground: 210 100% 98%;
+  
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  
+  /* Primary color - darker pastel pink */
+  --primary: 354 80% 65%;
+  --primary-foreground: 0 0% 100%;
+  
+  /* Secondary color - darker pastel peach */
+  --secondary: 33 70% 65%;
+  --secondary-foreground: 0 0% 98%;
+  
+  /* Accent color - darker pastel mint */
+  --accent: 152 60% 65%;
+  --accent-foreground: 0 0% 98%;
+  
+  /* Status colors */
+  --danger: 354 90% 60%;
+  --danger-foreground: 0 0% 98%;
+  --warning: 41 90% 60%;
+  --warning-foreground: 0 0% 98%;
+  --success: 166 90% 35%;
+  --success-foreground: 0 0% 98%;
+  
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-neutral-50 font-quicksand text-gray-700 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-nunito font-bold;
+  }
+}
+
+@layer components {
+  .category-badge {
+    @apply transition-transform duration-300;
+  }
+  
+  .category-badge:hover {
+    @apply transform scale-105;
+  }
+  
+  .food-card {
+    @apply transition-all duration-200;
+  }
+  
+  .food-card:hover {
+    @apply transform -translate-y-1;
+  }
+  
+  .notification-dot {
+    @apply animate-pulse;
+  }
+}
+
+@layer utilities {
+  .font-nunito {
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  .font-quicksand {
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

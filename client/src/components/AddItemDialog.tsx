@@ -1,0 +1,246 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { insertFoodItemSchema, FOOD_CATEGORIES, MEASUREMENT_UNITS, type InsertFoodItem } from "@shared/schema";
+import { useAddFoodItem } from "@/hooks/useFoodItems";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { X } from "lucide-react";
+import { format } from "date-fns";
+
+interface AddItemDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps) {
+  const { mutate: addFoodItem, isPending } = useAddFoodItem();
+  const [showCustomUnit, setShowCustomUnit] = useState(false);
+  
+  // Initialize form with default values
+  const form = useForm<InsertFoodItem>({
+    resolver: zodResolver(insertFoodItemSchema),
+    defaultValues: {
+      name: "",
+      category: "other",
+      quantity: 1,
+      unit: "pcs",
+      expirationDate: format(new Date(), "yyyy-MM-dd"),
+      notes: "",
+    },
+  });
+  
+  const onSubmit = (data: InsertFoodItem) => {
+    addFoodItem(data, {
+      onSuccess: () => {
+        onOpenChange(false);
+        form.reset();
+        setShowCustomUnit(false);
+      }
+    });
+  };
+  
+  // Handle unit selection, show custom unit input if "custom" is selected
+  const handleUnitChange = (value: string) => {
+    form.setValue("unit", value as any);
+    setShowCustomUnit(value === "custom");
+  };
+  
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <div className="bg-primary p-4 -m-6 mb-4 rounded-t-lg text-white flex justify-between items-center">
+            <DialogTitle className="font-nunito font-bold text-lg text-white">Add New Item</DialogTitle>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-white hover:bg-white/20 rounded-full" 
+              onClick={() => onOpenChange(false)}
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+        </DialogHeader>
+        
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Name field */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Item Name</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="e.g. Milk, Eggs, Apples..." 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            {/* Category field */}
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <FormControl>
+                    <Select 
+                      value={field.value} 
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FOOD_CATEGORIES.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            {/* Quantity and Unit fields */}
+            <div className="flex space-x-2">
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem className="w-1/2">
+                    <FormLabel>Quantity</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="number" 
+                        min="0.1" 
+                        step="0.1"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="unit"
+                render={({ field }) => (
+                  <FormItem className="w-1/2">
+                    <FormLabel>Unit</FormLabel>
+                    <FormControl>
+                      <Select 
+                        value={field.value} 
+                        onValueChange={handleUnitChange}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a unit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {MEASUREMENT_UNITS.map((unit) => (
+                            <SelectItem key={unit} value={unit}>
+                              {unit}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
+            {/* Custom Unit field (conditionally rendered) */}
+            {showCustomUnit && (
+              <FormField
+                control={form.control}
+                name="customUnit"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Custom Unit</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="e.g. slice, bunch, etc." 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            
+            {/* Expiration Date field */}
+            <FormField
+              control={form.control}
+              name="expirationDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Expiration Date</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="date" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            {/* Notes field */}
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Notes (Optional)</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Any additional details..."
+                      className="resize-none"
+                      rows={2}
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <DialogFooter className="pt-2">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => onOpenChange(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "Adding..." : "Add Item"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
