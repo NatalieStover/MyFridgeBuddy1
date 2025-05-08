@@ -297,17 +297,9 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
             
             <DialogFooter className="pt-2">
               <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => onOpenChange(false)}
-                className="font-bold border-[#E8E4E1] hover:bg-[#E8E4E1]"
-              >
-                Cancel
-              </Button>
-              <Button 
                 type="submit" 
                 disabled={isPending}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold w-full"
               >
                 {isPending 
                   ? (isEditing ? "Updating..." : "Adding...") 

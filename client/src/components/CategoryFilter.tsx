@@ -68,12 +68,12 @@ function CategoryButton({ category, isSelected, onClick }: CategoryButtonProps) 
   const getCategoryBgClass = (cat: FoodCategory | "all") => {
     switch (cat) {
       case "all": return "bg-[#E8E4E1]";
-      case "dairy": return "bg-[#E0E7D7]";
-      case "vegetables": return "bg-[#E0E7D7]";
-      case "fruits": return "bg-[#FFEAD0]";
-      case "meats": return "bg-[#FFD8CC]";
-      case "grains": return "bg-[#F8E9D2]";
-      case "beverages": return "bg-[#D8E2F3]";
+      case "dairy": return "bg-[#F3E5D1]"; // vanilla cream
+      case "vegetables": return "bg-[#CCD8BF]"; // sage green
+      case "fruits": return "bg-[#FFEAD0]"; // peach color
+      case "meats": return "bg-[#FFD8CC]"; // sunset red pastel
+      case "grains": return "bg-[#EAD9BF]"; // rustic oak pastel brown
+      case "beverages": return "bg-[#E0D8EF]"; // lavender
       default: return "bg-[#E8E4E1]";
     }
   };

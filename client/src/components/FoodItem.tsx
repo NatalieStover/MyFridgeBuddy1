@@ -13,24 +13,24 @@ interface FoodItemProps {
 
 // Category icons and colors with warmer pastels
 const categoryConfig = {
-  dairy: { icon: Milk, bgColor: "bg-[#E0E7D7]", textColor: "text-primary" },
-  vegetables: { icon: Sprout, bgColor: "bg-[#E0E7D7]", textColor: "text-primary" },
-  fruits: { icon: Apple, bgColor: "bg-[#FFEAD0]", textColor: "text-secondary" },
-  meats: { icon: Beef, bgColor: "bg-[#FFD8CC]", textColor: "text-secondary" },
-  grains: { icon: Wheat, bgColor: "bg-[#F8E9D2]", textColor: "text-amber-700" },
-  beverages: { icon: CupSoda, bgColor: "bg-[#D8E2F3]", textColor: "text-blue-600" },
-  other: { icon: Package, bgColor: "bg-[#E8E4E1]", textColor: "text-foreground" },
+  dairy: { icon: Milk, bgColor: "bg-[#F3E5D1]", textColor: "text-[#AA8362]" }, // vanilla cream
+  vegetables: { icon: Sprout, bgColor: "bg-[#CCD8BF]", textColor: "text-[#5C6D4A]" }, // sage green
+  fruits: { icon: Apple, bgColor: "bg-[#FFEAD0]", textColor: "text-[#D9936A]" }, // peach color
+  meats: { icon: Beef, bgColor: "bg-[#FFD8CC]", textColor: "text-[#D96D55]" }, // sunset red pastel
+  grains: { icon: Wheat, bgColor: "bg-[#EAD9BF]", textColor: "text-[#A67C52]" }, // rustic oak pastel brown
+  beverages: { icon: CupSoda, bgColor: "bg-[#E0D8EF]", textColor: "text-[#8A7AAF]" }, // lavender
+  other: { icon: Package, bgColor: "bg-[#E8E4E1]", textColor: "text-[#554B47]" },
 };
 
 // Background colors for categories in badge format with warmer pastels
 const categoryBadgeColors = {
-  dairy: "bg-[#E0E7D7] text-primary",
-  vegetables: "bg-[#E0E7D7] text-primary",
-  fruits: "bg-[#FFEAD0] text-secondary",
-  meats: "bg-[#FFD8CC] text-secondary",
-  grains: "bg-[#F8E9D2] text-amber-700",
-  beverages: "bg-[#D8E2F3] text-blue-600",
-  other: "bg-[#E8E4E1] text-foreground",
+  dairy: "bg-[#F3E5D1] text-[#AA8362]", // vanilla cream
+  vegetables: "bg-[#CCD8BF] text-[#5C6D4A]", // sage green
+  fruits: "bg-[#FFEAD0] text-[#D9936A]", // peach color
+  meats: "bg-[#FFD8CC] text-[#D96D55]", // sunset red pastel
+  grains: "bg-[#EAD9BF] text-[#A67C52]", // rustic oak pastel brown
+  beverages: "bg-[#E0D8EF] text-[#8A7AAF]", // lavender
+  other: "bg-[#E8E4E1] text-[#554B47]",
 };
 
 export default function FoodItem({ item, displayStyle, onEdit }: FoodItemProps) {
@@ -68,16 +68,16 @@ export default function FoodItem({ item, displayStyle, onEdit }: FoodItemProps) 
   
   // Get status color class for the expiration badge with warmer pastels
   const statusColorClass = {
-    success: "bg-[#E0E7D7] text-primary",
-    warning: "bg-[#FFEAD0] text-secondary",
-    destructive: "bg-[#FFD8CC] text-secondary",
+    success: "bg-[#CCD8BF] text-[#5C6D4A]", // sage green for good
+    warning: "bg-[#FFEAD0] text-[#D9936A]", // peach for warning
+    destructive: "bg-[#FFD8CC] text-[#D96D55]", // sunset red for expired
   }[statusColor];
   
   // Format for expiration badge in large display with warmer pastels
   const expirationBadgeClass = {
-    success: "bg-primary text-primary-foreground",
-    warning: "bg-warning text-warning-foreground",
-    destructive: "bg-danger text-danger-foreground",
+    success: "bg-[#CCD8BF] text-[#5C6D4A]", // sage green for good
+    warning: "bg-[#FFEAD0] text-[#D9936A]", // peach for warning
+    destructive: "bg-[#FFD8CC] text-[#D96D55]", // sunset red for expired
   }[statusColor];
   
   // Determine unit display
