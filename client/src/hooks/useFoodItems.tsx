@@ -15,6 +15,11 @@ export function useFoodItems() {
 export function useFoodItemsByCategory(category: FoodCategory) {
   return useQuery<FoodItem[]>({
     queryKey: ["/api/food-items/category", category],
+    queryFn: async () => {
+      const response = await fetch(`/api/food-items/category/${category}`);
+      if (!response.ok) throw new Error('Failed to fetch category items');
+      return response.json();
+    },
     enabled: !!category && category !== "all",
   });
 }
