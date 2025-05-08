@@ -89,7 +89,7 @@ function CategoryButton({ category, isSelected, onClick }: CategoryButtonProps) 
   // Icon classes based on selected state
   const iconClasses = isSelected
     ? "h-5 w-5 mb-1 text-primary-foreground"
-    : "h-5 w-5 mb-1 text-primary";
+    : "h-5 w-5 mb-1 text-[#554B47]";
     
   return (
     <button 

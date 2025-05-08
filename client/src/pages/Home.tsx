@@ -111,6 +111,7 @@ export default function Home() {
                 onSortOrderChange={setSortOrder}
                 searchQuery={searchQuery}
                 isLoading={isLoading}
+                onEditItem={handleEditItem}
               />
             </>
           )}

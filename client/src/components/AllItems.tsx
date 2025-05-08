@@ -108,6 +108,7 @@ export default function AllItems({
               key={item.id} 
               item={item}
               displayStyle="compact"
+              onEdit={onEditItem}
             />
           ))
         ) : (

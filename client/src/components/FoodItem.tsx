@@ -8,6 +8,7 @@ import { Milk, Apple, Sprout, Beef, Wheat, CupSoda, Package, Trash, Edit, Minus,
 interface FoodItemProps {
   item: FoodItemType;
   displayStyle: 'large' | 'compact';
+  onEdit?: (item: FoodItemType) => void;
 }
 
 // Category icons and colors with warmer pastels
@@ -32,7 +33,7 @@ const categoryBadgeColors = {
   other: "bg-[#E8E4E1] text-foreground",
 };
 
-export default function FoodItem({ item, displayStyle }: FoodItemProps) {
+export default function FoodItem({ item, displayStyle, onEdit }: FoodItemProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
   const { mutate: updateFoodItem } = useUpdateFoodItem();
@@ -127,11 +128,12 @@ export default function FoodItem({ item, displayStyle }: FoodItemProps) {
         {/* Action buttons */}
         <div className="absolute bottom-3 right-3 flex space-x-2">
           <Button 
-            variant="secondary" 
+            variant="ghost" 
             size="icon" 
-            className="h-8 w-8 rounded-full shadow-sm"
+            className="h-8 w-8 p-0"
+            onClick={() => onEdit && onEdit(item)}
           >
-            <Edit className="h-4 w-4" />
+            <Edit className="h-4 w-4 text-[#554B47]" />
           </Button>
           <Button 
             variant="destructive" 
@@ -195,11 +197,12 @@ export default function FoodItem({ item, displayStyle }: FoodItemProps) {
       {/* Action buttons */}
       <div className="absolute bottom-2 right-2 flex space-x-1">
         <Button 
-          variant="secondary" 
+          variant="ghost" 
           size="icon" 
-          className="h-6 w-6 rounded-full shadow-sm p-0"
+          className="h-6 w-6 p-0"
+          onClick={() => onEdit && onEdit(item)}
         >
-          <Edit className="h-3 w-3" />
+          <Edit className="h-3 w-3 text-[#554B47]" />
         </Button>
         <Button 
           variant="destructive" 
