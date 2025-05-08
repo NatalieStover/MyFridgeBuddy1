@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useNotifications } from "@/hooks/useFoodItems";
 import { Refrigerator, Search, Plus, Bell } from "lucide-react";
 
 interface HeaderProps {

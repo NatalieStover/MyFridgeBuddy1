@@ -53,14 +53,14 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md bg-background">
         <DialogHeader>
-          <div className="bg-primary p-4 -m-6 mb-4 rounded-t-lg text-white flex justify-between items-center">
-            <DialogTitle className="font-nunito font-bold text-lg text-white">Add New Item</DialogTitle>
+          <div className="bg-secondary p-4 -m-6 mb-4 rounded-t-lg text-secondary-foreground flex justify-between items-center">
+            <DialogTitle className="font-nunito font-extrabold text-lg text-secondary-foreground">Add New Item</DialogTitle>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-white hover:bg-white/20 rounded-full" 
+              className="text-secondary-foreground hover:bg-secondary-foreground/20 rounded-full" 
               onClick={() => onOpenChange(false)}
             >
               <X className="h-5 w-5" />
@@ -76,10 +76,11 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Item Name</FormLabel>
+                  <FormLabel className="font-bold text-foreground">Item Name</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="e.g. Milk, Eggs, Apples..." 
+                      className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus-visible:ring-primary"
                       {...field} 
                     />
                   </FormControl>
@@ -94,18 +95,18 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel className="font-bold text-foreground">Category</FormLabel>
                   <FormControl>
                     <Select 
                       value={field.value} 
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus:ring-primary">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-background border-[#E8E4E1]">
                         {FOOD_CATEGORIES.map((category) => (
-                          <SelectItem key={category} value={category}>
+                          <SelectItem key={category} value={category} className="font-medium">
                             {category.charAt(0).toUpperCase() + category.slice(1)}
                           </SelectItem>
                         ))}
@@ -231,10 +232,15 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
                 type="button" 
                 variant="outline" 
                 onClick={() => onOpenChange(false)}
+                className="font-bold border-[#E8E4E1] hover:bg-[#E8E4E1]"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isPending}>
+              <Button 
+                type="submit" 
+                disabled={isPending}
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold"
+              >
                 {isPending ? "Adding..." : "Add Item"}
               </Button>
             </DialogFooter>

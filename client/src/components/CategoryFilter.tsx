@@ -34,7 +34,7 @@ const categoryDisplayNames = {
 export default function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryFilterProps) {
   return (
     <section className="mb-8">
-      <h2 className="font-nunito font-bold text-xl mb-4">Categories</h2>
+      <h2 className="font-nunito font-extrabold text-xl mb-4">Categories</h2>
       <div className="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-hide">
         <CategoryButton 
           category="all"
@@ -64,17 +64,40 @@ interface CategoryButtonProps {
 function CategoryButton({ category, isSelected, onClick }: CategoryButtonProps) {
   const Icon = categoryIcons[category] || LayoutGrid;
   
+  // Choose background color class based on category
+  const getCategoryBgClass = (cat: FoodCategory | "all") => {
+    switch (cat) {
+      case "all": return "bg-[#E8E4E1]";
+      case "dairy": return "bg-[#E0E7D7]";
+      case "vegetables": return "bg-[#E0E7D7]";
+      case "fruits": return "bg-[#FFEAD0]";
+      case "meats": return "bg-[#FFD8CC]";
+      case "grains": return "bg-[#F8E9D2]";
+      case "beverages": return "bg-[#D8E2F3]";
+      default: return "bg-[#E8E4E1]";
+    }
+  };
+  
+  // Base classes always applied
+  const baseClasses = "category-badge flex flex-col items-center p-3 rounded-lg shadow-md min-w-[80px]";
+  
+  // Classes applied when selected or unselected
+  const stateClasses = isSelected
+    ? "bg-primary text-primary-foreground"
+    : `${getCategoryBgClass(category)} text-foreground hover:bg-opacity-90`;
+  
+  // Icon classes based on selected state
+  const iconClasses = isSelected
+    ? "h-5 w-5 mb-1 text-primary-foreground"
+    : "h-5 w-5 mb-1 text-primary";
+    
   return (
     <button 
       onClick={onClick}
-      className={`category-badge flex flex-col items-center p-3 rounded-lg shadow-md min-w-[80px] ${
-        isSelected 
-          ? "bg-primary text-white" 
-          : "bg-white text-gray-600 hover:bg-gray-50"
-      }`}
+      className={`${baseClasses} ${stateClasses}`}
     >
-      <Icon className="h-5 w-5 mb-1" />
-      <span className="text-xs font-medium">{categoryDisplayNames[category]}</span>
+      <Icon className={iconClasses} />
+      <span className="text-xs font-extrabold">{categoryDisplayNames[category]}</span>
     </button>
   );
 }
