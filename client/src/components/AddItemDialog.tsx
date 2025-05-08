@@ -108,7 +108,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-background">
+      <DialogContent className="max-w-md bg-background" hasCloseButton={false}>
         <DialogHeader>
           <div className="bg-secondary p-4 -m-6 mb-4 rounded-t-lg text-secondary-foreground flex justify-between items-center">
             <DialogTitle className="font-nunito font-extrabold text-lg text-secondary-foreground">
