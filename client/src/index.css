@@ -1,44 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;500;600&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
-
 :root {
-  --background: 0 0% 100%;
-  --foreground: 213 7% 20%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
-  --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
+  /* Base colors - warmer pastels */
+  --background: 45 100% 97%; /* #FFFCF2 */
+  --foreground: 17 25% 19%; /* #382B25 */
+  --muted: 44 52% 94%;
+  --muted-foreground: 17 20% 40%;
+  --popover: 45 100% 97%;
+  --popover-foreground: 17 25% 19%;
+  --card: 45 100% 97%;
+  --card-foreground: 17 25% 19%;
+  --border: 40 30% 90%;
+  --input: 40 30% 90%;
   
-  /* Primary color - pastel pink */
-  --primary: 354 100% 81%;
-  --primary-foreground: 0 0% 100%;
+  /* Primary color - warm olive green */
+  --primary: 73 16% 59%; /* #9AA980 */
+  --primary-foreground: 45 100% 97%;
   
-  /* Secondary color - pastel peach */
-  --secondary: 33 100% 85%;
-  --secondary-foreground: 24 9.8% 10%;
+  /* Secondary color - salmon pink */
+  --secondary: 14 100% 79%; /* #FFAD93 */
+  --secondary-foreground: 17 25% 19%;
   
-  /* Accent color - pastel mint */
-  --accent: 152 69% 82%;
-  --accent-foreground: 213 7% 20%;
+  /* Accent color - soft mauve */
+  --accent: 340 25% 75%;
+  --accent-foreground: 17 25% 19%;
   
   /* Status colors */
-  --danger: 354 100% 71%;
-  --danger-foreground: 355 100% 97%;
-  --warning: 41 100% 70%;
-  --warning-foreground: 24 9.8% 10%;
-  --success: 166 100% 43%;
-  --success-foreground: 210 100% 98%;
+  --danger: 14 100% 79%; /* Salmon */
+  --danger-foreground: 45 100% 97%;
+  --warning: 36 100% 75%; /* Peach */
+  --warning-foreground: 17 25% 19%;
+  --success: 73 30% 60%; /* Olive */
+  --success-foreground: 45 100% 97%;
   
-  --ring: 20 14.3% 4.1%;
-  --radius: 0.75rem;
+  --ring: 17 25% 19%;
+  --radius: 0.85rem;
 }
 
 .dark {
@@ -83,11 +84,15 @@
   }
 
   body {
-    @apply bg-neutral-50 font-quicksand text-gray-700 antialiased;
+    @apply bg-background text-foreground font-nunito antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-nunito font-bold;
+    @apply font-nunito font-extrabold;
+  }
+
+  p, span, div, button, input, textarea, select {
+    @apply font-nunito;
   }
 }
 
