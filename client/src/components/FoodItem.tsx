@@ -13,22 +13,22 @@ interface FoodItemProps {
 
 // Category icons and colors with warmer pastels
 const categoryConfig = {
-  dairy: { icon: Milk, bgColor: "bg-[#F3E5D1]", textColor: "text-[#AA8362]" }, // vanilla cream
-  vegetables: { icon: Sprout, bgColor: "bg-[#CCD8BF]", textColor: "text-[#5C6D4A]" }, // sage green
+  dairy: { icon: Milk, bgColor: "bg-[#F8F0E3]", textColor: "text-[#AA8362]" }, // lighter vanilla cream
+  meats: { icon: Beef, bgColor: "bg-[#CCD8BF]", textColor: "text-[#5C6D4A]" }, // sage green (swapped with vegetables)
   fruits: { icon: Apple, bgColor: "bg-[#FFEAD0]", textColor: "text-[#D9936A]" }, // peach color
-  meats: { icon: Beef, bgColor: "bg-[#FFD8CC]", textColor: "text-[#D96D55]" }, // sunset red pastel
-  grains: { icon: Wheat, bgColor: "bg-[#EAD9BF]", textColor: "text-[#A67C52]" }, // rustic oak pastel brown
+  vegetables: { icon: Sprout, bgColor: "bg-[#FFD8CC]", textColor: "text-[#D96D55]" }, // sunset red pastel (swapped with meats)
+  grains: { icon: Wheat, bgColor: "bg-[#D8E2F3]", textColor: "text-[#4A6DA7]" }, // changed to blue
   beverages: { icon: CupSoda, bgColor: "bg-[#E0D8EF]", textColor: "text-[#8A7AAF]" }, // lavender
   other: { icon: Package, bgColor: "bg-[#E8E4E1]", textColor: "text-[#554B47]" },
 };
 
 // Background colors for categories in badge format with warmer pastels
 const categoryBadgeColors = {
-  dairy: "bg-[#F3E5D1] text-[#AA8362]", // vanilla cream
-  vegetables: "bg-[#CCD8BF] text-[#5C6D4A]", // sage green
+  dairy: "bg-[#F8F0E3] text-[#AA8362]", // lighter vanilla cream
+  meats: "bg-[#CCD8BF] text-[#5C6D4A]", // sage green (swapped with vegetables)
   fruits: "bg-[#FFEAD0] text-[#D9936A]", // peach color
-  meats: "bg-[#FFD8CC] text-[#D96D55]", // sunset red pastel
-  grains: "bg-[#EAD9BF] text-[#A67C52]", // rustic oak pastel brown
+  vegetables: "bg-[#FFD8CC] text-[#D96D55]", // sunset red pastel (swapped with meats)
+  grains: "bg-[#D8E2F3] text-[#4A6DA7]", // changed to blue
   beverages: "bg-[#E0D8EF] text-[#8A7AAF]", // lavender
   other: "bg-[#E8E4E1] text-[#554B47]",
 };

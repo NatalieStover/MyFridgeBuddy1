@@ -1,6 +1,6 @@
 import { FoodCategory, FOOD_CATEGORIES } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Milk, Apple, Beef, Wheat, Banana, CupSoda, LayoutGrid } from "lucide-react";
+import { Milk, Apple, Beef, Wheat, Sprout, CupSoda, LayoutGrid } from "lucide-react";
 
 interface CategoryFilterProps {
   selectedCategory: FoodCategory | "all";
@@ -11,7 +11,7 @@ interface CategoryFilterProps {
 const categoryIcons = {
   all: LayoutGrid,
   dairy: Milk,
-  vegetables: Banana,
+  vegetables: Sprout, // Changed from Banana to Sprout
   fruits: Apple,
   meats: Beef,
   grains: Wheat,
@@ -68,11 +68,11 @@ function CategoryButton({ category, isSelected, onClick }: CategoryButtonProps) 
   const getCategoryBgClass = (cat: FoodCategory | "all") => {
     switch (cat) {
       case "all": return "bg-[#E8E4E1]";
-      case "dairy": return "bg-[#F3E5D1]"; // vanilla cream
-      case "vegetables": return "bg-[#CCD8BF]"; // sage green
+      case "dairy": return "bg-[#F8F0E3]"; // lighter vanilla cream
+      case "meats": return "bg-[#CCD8BF]"; // sage green (swapped with vegetables)
       case "fruits": return "bg-[#FFEAD0]"; // peach color
-      case "meats": return "bg-[#FFD8CC]"; // sunset red pastel
-      case "grains": return "bg-[#EAD9BF]"; // rustic oak pastel brown
+      case "vegetables": return "bg-[#FFD8CC]"; // sunset red pastel (swapped with meats)
+      case "grains": return "bg-[#D8E2F3]"; // changed to blue
       case "beverages": return "bg-[#E0D8EF]"; // lavender
       default: return "bg-[#E8E4E1]";
     }

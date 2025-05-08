@@ -75,7 +75,7 @@ export default function EmptyState({ onAddItem }: EmptyStateProps) {
       >
         <Button 
           onClick={onAddItem}
-          className="bg-primary text-white py-3 px-6 rounded-full shadow-md hover:shadow-lg transition flex items-center space-x-2"
+          className="bg-[#FFEAD0] text-[#D9936A] py-3 px-6 rounded-full shadow-md hover:shadow-lg transition flex items-center space-x-2 border-[#FFEAD0] hover:bg-[#FFE0BC]"
         >
           <Plus className="h-5 w-5" />
           <span>Add Your First Item</span>
