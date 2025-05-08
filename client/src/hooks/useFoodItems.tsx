@@ -17,11 +17,7 @@ export function useFoodItems() {
 export function useFoodItemsByCategory(category: FoodCategory) {
   return useQuery<FoodItem[]>({
     queryKey: ["/api/food-items/category", category],
-    queryFn: async () => {
-      const response = await fetch(`/api/food-items/category/${category}`);
-      if (!response.ok) throw new Error('Failed to fetch category items');
-      return response.json();
-    },
+    queryFn: () => localStorageClient.getFoodItemsByCategory(category),
     enabled: !!category && category !== "all",
   });
 }
@@ -30,6 +26,7 @@ export function useFoodItemsByCategory(category: FoodCategory) {
 export function useExpiringFoodItems(days: number = 3) {
   return useQuery<FoodItem[]>({
     queryKey: ["/api/food-items/expiring", days],
+    queryFn: () => localStorageClient.getExpiringFoodItems(days),
   });
 }
 
@@ -64,9 +61,8 @@ export function useUpdateFoodItem() {
   const { toast } = useToast();
   
   return useMutation({
-    mutationFn: async ({ id, updates }: { id: number; updates: Partial<InsertFoodItem> }) => {
-      const res = await apiRequest("PATCH", `/api/food-items/${id}`, updates);
-      return res.json();
+    mutationFn: ({ id, updates }: { id: number; updates: Partial<InsertFoodItem> }) => {
+      return localStorageClient.updateFoodItem(id, updates);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/food-items"] });
@@ -91,8 +87,9 @@ export function useDeleteFoodItem() {
   const { toast } = useToast();
   
   return useMutation({
-    mutationFn: async (id: number) => {
-      await apiRequest("DELETE", `/api/food-items/${id}`);
+    mutationFn: (id: number) => {
+      const success = localStorageClient.deleteFoodItem(id);
+      if (!success) throw new Error('Item not found');
       return id;
     },
     onSuccess: () => {
