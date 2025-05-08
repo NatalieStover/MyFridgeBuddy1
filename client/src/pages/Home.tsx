@@ -7,7 +7,7 @@ import BottomNav from "@/components/BottomNav";
 import AddItemDialog from "@/components/AddItemDialog";
 import EmptyState from "@/components/EmptyState";
 import { useFoodItems } from "@/hooks/useFoodItems";
-import { FoodCategory } from "@shared/schema";
+import { FoodCategory, FoodItem } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
@@ -15,9 +15,25 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory | "all">("all");
   const [sortOrder, setSortOrder] = useState<"recently-added" | "expiration-date" | "name">("expiration-date");
   const [searchQuery, setSearchQuery] = useState("");
+  const [editingItem, setEditingItem] = useState<FoodItem | null>(null);
   
   const { data: foodItems, isLoading, error } = useFoodItems();
   const { toast } = useToast();
+  
+  // Function to handle opening the edit dialog
+  const handleEditItem = (item: FoodItem) => {
+    setEditingItem(item);
+    setIsAddItemOpen(true);
+  };
+  
+  // Function to handle closing the dialog
+  const handleDialogClose = (open: boolean) => {
+    setIsAddItemOpen(open);
+    if (!open) {
+      // Reset the editing item when dialog closes
+      setEditingItem(null);
+    }
+  };
 
   useEffect(() => {
     if (error) {
@@ -43,7 +59,7 @@ export default function Home() {
           toast({
             title: "Items Expiring Soon!",
             description: `These items are about to expire: ${itemNames}`,
-            variant: "warning",
+            variant: "destructive",
           });
         }
       } catch (error) {
@@ -65,7 +81,10 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col pb-16 md:pb-0">
       <Header 
-        onAddItem={() => setIsAddItemOpen(true)} 
+        onAddItem={() => {
+          setEditingItem(null);
+          setIsAddItemOpen(true);
+        }} 
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
@@ -73,7 +92,10 @@ export default function Home() {
       <main className="flex-grow py-6 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           {isEmpty ? (
-            <EmptyState onAddItem={() => setIsAddItemOpen(true)} />
+            <EmptyState onAddItem={() => {
+              setEditingItem(null);
+              setIsAddItemOpen(true);
+            }} />
           ) : (
             <>
               <CategoryFilter 
@@ -95,11 +117,15 @@ export default function Home() {
         </div>
       </main>
       
-      <BottomNav onAddItem={() => setIsAddItemOpen(true)} />
+      <BottomNav onAddItem={() => {
+          setEditingItem(null);
+          setIsAddItemOpen(true);
+        }} />
       
       <AddItemDialog 
         open={isAddItemOpen} 
-        onOpenChange={setIsAddItemOpen} 
+        onOpenChange={handleDialogClose} 
+        editItem={editingItem}
       />
     </div>
   );

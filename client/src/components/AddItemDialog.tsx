@@ -309,7 +309,10 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 disabled={isPending}
                 className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold"
               >
-                {isPending ? "Adding..." : "Add Item"}
+                {isPending 
+                  ? (isEditing ? "Updating..." : "Adding...") 
+                  : (isEditing ? "Save Changes" : "Add Item")
+                }
               </Button>
             </DialogFooter>
           </form>

@@ -12,6 +12,7 @@ interface AllItemsProps {
   onSortOrderChange: (order: "recently-added" | "expiration-date" | "name") => void;
   searchQuery: string;
   isLoading: boolean;
+  onEditItem?: (item: FoodItemType) => void;
 }
 
 export default function AllItems({
@@ -19,7 +20,8 @@ export default function AllItems({
   sortOrder,
   onSortOrderChange,
   searchQuery,
-  isLoading
+  isLoading,
+  onEditItem
 }: AllItemsProps) {
   const { data: allItems } = useFoodItems();
   const { data: categoryItems } = useFoodItemsByCategory(selectedCategory as FoodCategory);
