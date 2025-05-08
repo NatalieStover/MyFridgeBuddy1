@@ -125,12 +125,13 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
                 name="quantity"
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormLabel>Quantity</FormLabel>
+                    <FormLabel className="font-bold text-foreground">Quantity</FormLabel>
                     <FormControl>
                       <Input 
                         type="number" 
                         min="0.1" 
                         step="0.1"
+                        className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus-visible:ring-primary"
                         {...field}
                         onChange={(e) => field.onChange(parseFloat(e.target.value))}
                       />
@@ -145,18 +146,18 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
                 name="unit"
                 render={({ field }) => (
                   <FormItem className="w-1/2">
-                    <FormLabel>Unit</FormLabel>
+                    <FormLabel className="font-bold text-foreground">Unit</FormLabel>
                     <FormControl>
                       <Select 
                         value={field.value} 
                         onValueChange={handleUnitChange}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus:ring-primary">
                           <SelectValue placeholder="Select a unit" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-background border-[#E8E4E1]">
                           {MEASUREMENT_UNITS.map((unit) => (
-                            <SelectItem key={unit} value={unit}>
+                            <SelectItem key={unit} value={unit} className="font-medium">
                               {unit}
                             </SelectItem>
                           ))}
@@ -176,10 +177,11 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
                 name="customUnit"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Custom Unit</FormLabel>
+                    <FormLabel className="font-bold text-foreground">Custom Unit</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="e.g. slice, bunch, etc." 
+                        className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus-visible:ring-primary"
                         {...field} 
                       />
                     </FormControl>
@@ -195,11 +197,16 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
               name="expirationDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expiration Date</FormLabel>
+                  <FormLabel className="font-bold text-foreground">Expiration Date</FormLabel>
                   <FormControl>
                     <Input 
                       type="date" 
-                      {...field} 
+                      className="bg-[#E8E4E1]/50 border-[#E8E4E1] focus-visible:ring-primary"
+                      value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : field.value || ""}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
                     />
                   </FormControl>
                   <FormMessage />
@@ -213,13 +220,17 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notes (Optional)</FormLabel>
+                  <FormLabel className="font-bold text-foreground">Notes (Optional)</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Any additional details..."
-                      className="resize-none"
+                      className="resize-none bg-[#E8E4E1]/50 border-[#E8E4E1] focus-visible:ring-primary"
                       rows={2}
-                      {...field} 
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
                     />
                   </FormControl>
                   <FormMessage />
