@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertFoodItemSchema, FOOD_CATEGORIES, MEASUREMENT_UNITS, type InsertFoodItem } from "@shared/schema";
-import { useAddFoodItem } from "@/hooks/useFoodItems";
+import { insertFoodItemSchema, FOOD_CATEGORIES, MEASUREMENT_UNITS, type InsertFoodItem, type FoodItem } from "@shared/schema";
+import { useAddFoodItem, useUpdateFoodItem } from "@/hooks/useFoodItems";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,16 +11,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { X } from "lucide-react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 interface AddItemDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  editItem?: FoodItem | null;
 }
 
-export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps) {
-  const { mutate: addFoodItem, isPending } = useAddFoodItem();
+export default function AddItemDialog({ open, onOpenChange, editItem = null }: AddItemDialogProps) {
+  const { mutate: addFoodItem, isPending: isAddPending } = useAddFoodItem();
+  const { mutate: updateFoodItem, isPending: isUpdatePending } = useUpdateFoodItem();
   const [showCustomUnit, setShowCustomUnit] = useState(false);
+  
+  const isEditing = !!editItem;
+  const isPending = isAddPending || isUpdatePending;
   
   // Initialize form with default values
   const form = useForm<InsertFoodItem>({
@@ -35,14 +40,64 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
     },
   });
   
-  const onSubmit = (data: InsertFoodItem) => {
-    addFoodItem(data, {
-      onSuccess: () => {
-        onOpenChange(false);
-        form.reset();
+  // Update form when dialog opens/closes or editItem changes
+  useEffect(() => {
+    if (open) {
+      if (editItem) {
+        // Format the date to yyyy-MM-dd for the form
+        const formattedDate = typeof editItem.expirationDate === 'string' 
+          ? format(parseISO(editItem.expirationDate), 'yyyy-MM-dd')
+          : format(editItem.expirationDate, 'yyyy-MM-dd');
+        
+        // Set form values from existing item
+        form.reset({
+          name: editItem.name,
+          category: editItem.category,
+          quantity: editItem.quantity,
+          unit: editItem.unit,
+          customUnit: editItem.customUnit || "",
+          expirationDate: formattedDate,
+          notes: editItem.notes || "",
+        });
+        
+        // Show custom unit field if necessary
+        setShowCustomUnit(editItem.unit === 'custom');
+      } else {
+        // Reset to defaults for new item
+        form.reset({
+          name: "",
+          category: "other",
+          quantity: 1,
+          unit: "pcs",
+          expirationDate: format(new Date(), "yyyy-MM-dd"),
+          notes: "",
+        });
         setShowCustomUnit(false);
       }
-    });
+    }
+  }, [open, editItem, form]);
+  
+  const onSubmit = (data: InsertFoodItem) => {
+    if (isEditing && editItem) {
+      updateFoodItem({
+        id: editItem.id,
+        updates: data
+      }, {
+        onSuccess: () => {
+          onOpenChange(false);
+          form.reset();
+          setShowCustomUnit(false);
+        }
+      });
+    } else {
+      addFoodItem(data, {
+        onSuccess: () => {
+          onOpenChange(false);
+          form.reset();
+          setShowCustomUnit(false);
+        }
+      });
+    }
   };
   
   // Handle unit selection, show custom unit input if "custom" is selected
@@ -56,7 +111,9 @@ export default function AddItemDialog({ open, onOpenChange }: AddItemDialogProps
       <DialogContent className="max-w-md bg-background">
         <DialogHeader>
           <div className="bg-secondary p-4 -m-6 mb-4 rounded-t-lg text-secondary-foreground flex justify-between items-center">
-            <DialogTitle className="font-nunito font-extrabold text-lg text-secondary-foreground">Add New Item</DialogTitle>
+            <DialogTitle className="font-nunito font-extrabold text-lg text-secondary-foreground">
+              {isEditing ? `Edit ${editItem?.name}` : 'Add New Item'}
+            </DialogTitle>
             <Button 
               variant="ghost" 
               size="icon" 
