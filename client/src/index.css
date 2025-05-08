@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
 
 @tailwind base;
@@ -84,7 +84,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-nunito antialiased;
+    @apply bg-background text-foreground font-nunito font-extrabold antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -92,7 +92,7 @@
   }
 
   p, span, div, button, input, textarea, select {
-    @apply font-nunito;
+    @apply font-nunito font-extrabold;
   }
 }
 

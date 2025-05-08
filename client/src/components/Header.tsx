@@ -33,8 +33,8 @@ export default function Header({ onAddItem, searchQuery, onSearchChange }: Heade
     <header className="bg-background shadow-sm py-3 px-4 sm:px-6 sticky top-0 z-10">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <Refrigerator className="text-primary h-6 w-6" />
-          <h1 className="font-nunito font-extrabold text-2xl text-primary">Fridgie</h1>
+          <Refrigerator className="text-[#554B47] h-6 w-6" />
+          <h1 className="font-nunito font-extrabold text-2xl text-[#554B47]">Fridgie</h1>
         </div>
         <div className="flex items-center space-x-4">
           <div className="relative">
