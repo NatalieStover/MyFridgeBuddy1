@@ -35,7 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get expiring food items
-  app.get("/api/food-items/expiring/:days", async (req, res) => {
+  app.get(["/api/food-items/expiring", "/api/food-items/expiring/:days"], async (req, res) => {
     try {
       const days = parseInt(req.params.days, 10) || 3; // Default to 3 days if not specified
       const expiringItems = await storage.getExpiringFoodItems(days);

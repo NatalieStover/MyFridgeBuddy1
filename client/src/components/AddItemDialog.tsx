@@ -23,10 +23,10 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
   const { mutate: addFoodItem, isPending: isAddPending } = useAddFoodItem();
   const { mutate: updateFoodItem, isPending: isUpdatePending } = useUpdateFoodItem();
   const [showCustomUnit, setShowCustomUnit] = useState(false);
-  
+
   const isEditing = !!editItem;
   const isPending = isAddPending || isUpdatePending;
-  
+
   // Initialize form with default values
   const form = useForm<InsertFoodItem>({
     resolver: zodResolver(insertFoodItemSchema),
@@ -39,7 +39,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
       notes: "",
     },
   });
-  
+
   // Update form when dialog opens/closes or editItem changes
   useEffect(() => {
     if (open) {
@@ -48,7 +48,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
         const formattedDate = typeof editItem.expirationDate === 'string' 
           ? format(parseISO(editItem.expirationDate), 'yyyy-MM-dd')
           : format(editItem.expirationDate, 'yyyy-MM-dd');
-        
+
         // Set form values from existing item
         form.reset({
           name: editItem.name,
@@ -59,7 +59,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
           expirationDate: formattedDate,
           notes: editItem.notes || "",
         });
-        
+
         // Show custom unit field if necessary
         setShowCustomUnit(editItem.unit === 'custom');
       } else {
@@ -76,7 +76,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
       }
     }
   }, [open, editItem, form]);
-  
+
   const onSubmit = (data: InsertFoodItem) => {
     if (isEditing && editItem) {
       updateFoodItem({
@@ -99,16 +99,19 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
       });
     }
   };
-  
+
   // Handle unit selection, show custom unit input if "custom" is selected
   const handleUnitChange = (value: string) => {
     form.setValue("unit", value as any);
     setShowCustomUnit(value === "custom");
   };
-  
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md bg-background" hasCloseButton={false}>
+      <DialogContent aria-describedby="add-item-dialog-description" className="max-w-md bg-background" hasCloseButton={false}>
+        <div id="add-item-dialog-description" className="sr-only">
+          Dialog for adding or editing food items in your fridge
+        </div>
         <DialogHeader>
           <div className="bg-secondary p-4 -m-6 mb-4 rounded-t-lg text-secondary-foreground flex justify-between items-center">
             <DialogTitle className="font-nunito font-extrabold text-lg text-secondary-foreground">
@@ -124,7 +127,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
             </Button>
           </div>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Name field */}
@@ -145,7 +148,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 </FormItem>
               )}
             />
-            
+
             {/* Category field */}
             <FormField
               control={form.control}
@@ -174,7 +177,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 </FormItem>
               )}
             />
-            
+
             {/* Quantity and Unit fields */}
             <div className="flex space-x-2">
               <FormField
@@ -197,7 +200,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="unit"
@@ -226,7 +229,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 )}
               />
             </div>
-            
+
             {/* Custom Unit field (conditionally rendered) */}
             {showCustomUnit && (
               <FormField
@@ -247,7 +250,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 )}
               />
             )}
-            
+
             {/* Expiration Date field */}
             <FormField
               control={form.control}
@@ -270,7 +273,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 </FormItem>
               )}
             />
-            
+
             {/* Notes field */}
             <FormField
               control={form.control}
@@ -294,7 +297,7 @@ export default function AddItemDialog({ open, onOpenChange, editItem = null }: A
                 </FormItem>
               )}
             />
-            
+
             <DialogFooter className="pt-2">
               <Button 
                 type="submit" 
