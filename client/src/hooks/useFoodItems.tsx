@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { FoodItem, InsertFoodItem, FoodCategory } from "@shared/schema";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
+import { localStorageClient } from "@/lib/localStorageClient";
 import { useToast } from "@/hooks/use-toast";
 import { differenceInDays, parseISO } from "date-fns";
 
@@ -8,6 +9,7 @@ import { differenceInDays, parseISO } from "date-fns";
 export function useFoodItems() {
   return useQuery<FoodItem[]>({
     queryKey: ["/api/food-items"],
+    queryFn: () => localStorageClient.getAllFoodItems(),
   });
 }
 
@@ -36,9 +38,8 @@ export function useAddFoodItem() {
   const { toast } = useToast();
   
   return useMutation({
-    mutationFn: async (foodItem: InsertFoodItem) => {
-      const res = await apiRequest("POST", "/api/food-items", foodItem);
-      return res.json();
+    mutationFn: (foodItem: InsertFoodItem) => {
+      return localStorageClient.createFoodItem(foodItem);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/food-items"] });
