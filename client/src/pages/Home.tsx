@@ -9,6 +9,9 @@ import ShoppingList from "@/components/ShoppingList";
 import { useFoodItems } from "@/hooks/useFoodItems";
 import { FoodCategory, FoodItem } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
 
 export default function Home() {
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
@@ -16,6 +19,7 @@ export default function Home() {
   const [sortOrder, setSortOrder] = useState<"recently-added" | "expiration-date" | "name">("expiration-date");
   const [searchQuery, setSearchQuery] = useState("");
   const [editingItem, setEditingItem] = useState<FoodItem | null>(null);
+  const [shoppingListOpen, setShoppingListOpen] = useState(false);
 
   const { data: foodItems, isLoading, error } = useFoodItems();
   const { toast } = useToast();
@@ -89,39 +93,47 @@ export default function Home() {
       />
 
       <main className="flex-grow py-6 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            {isEmpty ? (
-              <EmptyState onAddItem={() => {
-                setEditingItem(null);
-                setIsAddItemOpen(true);
-              }} />
-            ) : (
-              <>
-                <CategoryFilter 
-                  selectedCategory={selectedCategory} 
-                  onSelectCategory={setSelectedCategory} 
-                />
+        <div className="max-w-7xl mx-auto">
+          {isEmpty ? (
+            <EmptyState onAddItem={() => {
+              setEditingItem(null);
+              setIsAddItemOpen(true);
+            }} />
+          ) : (
+            <>
+              <CategoryFilter 
+                selectedCategory={selectedCategory} 
+                onSelectCategory={setSelectedCategory} 
+              />
 
-                <ExpiringItems isLoading={isLoading} />
+              <ExpiringItems isLoading={isLoading} />
 
-                <AllItems 
-                  selectedCategory={selectedCategory}
-                  sortOrder={sortOrder}
-                  onSortOrderChange={setSortOrder}
-                  searchQuery={searchQuery}
-                  isLoading={isLoading}
-                  onEditItem={handleEditItem}
-                />
-              </>
-            )}
-          </div>
-          
-          <div className="bg-background rounded-xl p-6 border shadow-sm">
-            <ShoppingList />
-          </div>
+              <AllItems 
+                selectedCategory={selectedCategory}
+                sortOrder={sortOrder}
+                onSortOrderChange={setSortOrder}
+                searchQuery={searchQuery}
+                isLoading={isLoading}
+                onEditItem={handleEditItem}
+              />
+            </>
+          )}
         </div>
       </main>
+
+      <Sheet open={shoppingListOpen} onOpenChange={setShoppingListOpen}>
+        <SheetTrigger asChild>
+          <Button
+            className="fixed bottom-20 right-4 md:bottom-4 bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg rounded-full h-12 w-12"
+            size="icon"
+          >
+            <ShoppingCart className="h-6 w-6" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent className="w-full sm:max-w-lg">
+          <ShoppingList />
+        </SheetContent>
+      </Sheet>
 
       <AddItemDialog 
         open={isAddItemOpen} 
