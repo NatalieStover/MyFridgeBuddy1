@@ -5,6 +5,7 @@ import ExpiringItems from "@/components/ExpiringItems";
 import AllItems from "@/components/AllItems";
 import AddItemDialog from "@/components/AddItemDialog";
 import EmptyState from "@/components/EmptyState";
+import ShoppingList from "@/components/ShoppingList";
 import { useFoodItems } from "@/hooks/useFoodItems";
 import { FoodCategory, FoodItem } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
@@ -88,31 +89,37 @@ export default function Home() {
       />
 
       <main className="flex-grow py-6 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          {isEmpty ? (
-            <EmptyState onAddItem={() => {
-              setEditingItem(null);
-              setIsAddItemOpen(true);
-            }} />
-          ) : (
-            <>
-              <CategoryFilter 
-                selectedCategory={selectedCategory} 
-                onSelectCategory={setSelectedCategory} 
-              />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            {isEmpty ? (
+              <EmptyState onAddItem={() => {
+                setEditingItem(null);
+                setIsAddItemOpen(true);
+              }} />
+            ) : (
+              <>
+                <CategoryFilter 
+                  selectedCategory={selectedCategory} 
+                  onSelectCategory={setSelectedCategory} 
+                />
 
-              <ExpiringItems isLoading={isLoading} />
+                <ExpiringItems isLoading={isLoading} />
 
-              <AllItems 
-                selectedCategory={selectedCategory}
-                sortOrder={sortOrder}
-                onSortOrderChange={setSortOrder}
-                searchQuery={searchQuery}
-                isLoading={isLoading}
-                onEditItem={handleEditItem}
-              />
-            </>
-          )}
+                <AllItems 
+                  selectedCategory={selectedCategory}
+                  sortOrder={sortOrder}
+                  onSortOrderChange={setSortOrder}
+                  searchQuery={searchQuery}
+                  isLoading={isLoading}
+                  onEditItem={handleEditItem}
+                />
+              </>
+            )}
+          </div>
+          
+          <div className="bg-background rounded-xl p-6 border shadow-sm">
+            <ShoppingList />
+          </div>
         </div>
       </main>
 

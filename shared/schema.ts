@@ -66,6 +66,18 @@ export const foodItems = pgTable("food_items", {
   notified: boolean("notified").notNull().default(false),
 });
 
+// Shopping list item schema
+export const shoppingListItemSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1),
+  category: z.enum(FOOD_CATEGORIES),
+  quantity: z.number().positive(),
+  unit: z.enum(MEASUREMENT_UNITS),
+  customUnit: z.string().optional(),
+  completed: z.boolean().default(false),
+  createdAt: z.date(),
+});
+
 // Create zod schema for inserts
 export const insertFoodItemSchema = createInsertSchema(foodItems)
   .omit({ id: true, createdAt: true, notified: true })
@@ -77,6 +89,9 @@ export const insertFoodItemSchema = createInsertSchema(foodItems)
     customUnit: z.string().optional(),
   });
 
+export const insertShoppingListItemSchema = shoppingListItemSchema
+  .omit({ id: true, createdAt: true, completed: true });
+
 // Define export types
 export type FoodCategory = typeof FOOD_CATEGORIES[number];
 export type MeasurementUnit = typeof MEASUREMENT_UNITS[number];
@@ -84,3 +99,5 @@ export type FoodItem = typeof foodItems.$inferSelect;
 export type InsertFoodItem = z.infer<typeof insertFoodItemSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type ShoppingListItem = z.infer<typeof shoppingListItemSchema>;
+export type InsertShoppingListItem = z.infer<typeof insertShoppingListItemSchema>;
